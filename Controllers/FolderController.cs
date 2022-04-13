@@ -91,7 +91,7 @@ namespace CDN.Controllers
             {
                 var EmpResponse = json.Content.ReadAsStringAsync().Result;
                 var item = JsonConvert.DeserializeObject<Folder>(EmpResponse);
-                if (item == null) return Ok(new SystemMessaging(MesagesCode.Delete, "Folder doesn't exist"));
+                if (item == null) return Ok(new SystemMessaging(MesagesCode.NotFound, "Folder doesn't exist"));
                 else return Ok(item);
             }
             return BadRequest();
@@ -123,12 +123,12 @@ namespace CDN.Controllers
                     if (json.IsSuccessStatusCode)
                     {
                         EmpResponse = json.Content.ReadAsStringAsync().Result;
-                        if (EmpResponse == "1") return Ok(new SystemMessaging(MesagesCode.Delete, "Folder deleted succesfully!"));
-                        else return BadRequest(new SystemMessaging(MesagesCode.Delete, "Folder couldn't deleted!"));
+                        if (EmpResponse == "1") return Ok(new SystemMessaging(MesagesCode.Delete, "Folder deleted succesfully!",item));
+                        else return BadRequest(new SystemMessaging(MesagesCode.Exception, "Folder couldn't deleted!",item));
 
                     }
                 }
-                else return BadRequest(new SystemMessaging(MesagesCode.Delete, "Folder doesn't exist"));
+                else return BadRequest(new SystemMessaging(MesagesCode.NotFound, "Folder doesn't exist"));
             }
 
             return BadRequest();

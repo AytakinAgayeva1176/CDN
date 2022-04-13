@@ -109,7 +109,7 @@ namespace CDN.Controllers
             {
                 var EmpResponse = json.Content.ReadAsStringAsync().Result;
                 var item = JsonConvert.DeserializeObject<File_>(EmpResponse);
-                if (item == null) return Ok(new SystemMessaging(MesagesCode.Delete, "File doesn't exist"));
+                if (item == null) return Ok(new SystemMessaging(MesagesCode.NotFound, "File doesn't exist"));
                 else return Ok(item);
             }
             return BadRequest();
@@ -142,11 +142,11 @@ namespace CDN.Controllers
                     if (json.IsSuccessStatusCode)
                     {
                         EmpResponse = json.Content.ReadAsStringAsync().Result;
-                        if (EmpResponse == "1") return Ok(new SystemMessaging(MesagesCode.Delete, "File deleted succesfully!"));
-                        else return BadRequest(new SystemMessaging(MesagesCode.Delete, "File couldn't deleted!"));
+                        if (EmpResponse == "1") return Ok(new SystemMessaging(MesagesCode.Delete, "File deleted succesfully!",item));
+                        else return BadRequest(new SystemMessaging(MesagesCode.Exception, "File couldn't deleted!",item));
                     }
                 }
-                else return BadRequest(new SystemMessaging(MesagesCode.Delete, "File doesn't exist"));
+                else return BadRequest(new SystemMessaging(MesagesCode.NotFound, "File doesn't exist"));
             }
 
             return BadRequest();

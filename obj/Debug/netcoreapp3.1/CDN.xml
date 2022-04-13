@@ -36,7 +36,7 @@
         </member>
         <member name="M:CDN.Controllers.FolderController.Create(System.String,System.String)">
             <summary>
-            Create Folde
+            Create Folder
             </summary>
             <param name="name"> Folde Name </param>
             <param name="access">Access</param>
