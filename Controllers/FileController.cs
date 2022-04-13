@@ -71,7 +71,7 @@ namespace CDN.Controllers
 
             if (json.IsSuccessStatusCode)
             {
-
+                #region FTP
                 FtpWebRequest request =
                 (FtpWebRequest)WebRequest.Create(ftpSettings.ServerLink + related_folder + "/" + model.path);
                 request.Credentials = new NetworkCredential(ftpSettings.UserName, ftpSettings.Password);
@@ -81,7 +81,7 @@ namespace CDN.Controllers
                 {
                     file.CopyTo(ftpStream);
                 }
-
+                #endregion
                 var EmpResponse = json.Content.ReadAsStringAsync().Result;
                 var item = JsonConvert.DeserializeObject<File_>(EmpResponse);
                 return Ok(item);
@@ -109,12 +109,8 @@ namespace CDN.Controllers
             {
                 var EmpResponse = json.Content.ReadAsStringAsync().Result;
                 var item = JsonConvert.DeserializeObject<File_>(EmpResponse);
-                if (item == null)
-                {
-                    var result = new SystemMessaging(MesagesCode.Delete, "File doesn't exist");
-                    return Ok(result);
-                }
-                return Ok(item);
+                if (item == null) return Ok(new SystemMessaging(MesagesCode.Delete, "File doesn't exist"));
+                else return Ok(item);
             }
             return BadRequest();
         }
@@ -134,7 +130,7 @@ namespace CDN.Controllers
         {
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Add("xc-auth", tokenSettings.token);
-            var folder = await client.GetAsync(uri +  "/findOne?where=(uniq_id,like," + uniq_id + ")");
+            var folder = await client.GetAsync(uri + "/findOne?where=(uniq_id,like," + uniq_id + ")");
 
             if (folder.IsSuccessStatusCode)
             {
@@ -143,27 +139,14 @@ namespace CDN.Controllers
                 if (item != null)
                 {
                     var json = await client.DeleteAsync(uri + "/" + item.id);
-
                     if (json.IsSuccessStatusCode)
                     {
                         EmpResponse = json.Content.ReadAsStringAsync().Result;
-                        if (EmpResponse == "1")
-                        {
-                            return Ok(new SystemMessaging(MesagesCode.Delete, "File deleted succesfully!"));
-                        }
-                        else
-                        {
-                           return BadRequest(new SystemMessaging(MesagesCode.Delete, "File couldn't deleted!"));
-
-                        }
-                        
+                        if (EmpResponse == "1") return Ok(new SystemMessaging(MesagesCode.Delete, "File deleted succesfully!"));
+                        else return BadRequest(new SystemMessaging(MesagesCode.Delete, "File couldn't deleted!"));
                     }
                 }
-                else
-                {
-                    return BadRequest(new SystemMessaging(MesagesCode.Delete, "File doesn't exist"));
-                }
-
+                else return BadRequest(new SystemMessaging(MesagesCode.Delete, "File doesn't exist"));
             }
 
             return BadRequest();

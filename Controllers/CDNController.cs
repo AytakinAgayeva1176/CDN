@@ -37,14 +37,13 @@ namespace CDN.Controllers
             {
                 var EmpResponse = json.Content.ReadAsStringAsync().Result;
                 var item = JsonConvert.DeserializeObject<User>(EmpResponse);
-                if (item == null)
+                if (item == null)  return Ok(new SystemMessaging(MesagesCode.Delete, "User doesn't exist"));
+                else
                 {
-                    return Ok(new SystemMessaging(MesagesCode.Delete, "User doesn't exist"));
+                    item.token = TokenGenerator.GenerateToken(item.email, item.uniq_id);
+                    return Ok(item);
                 }
-
-                item.token = TokenGenerator.GenerateToken(item.email, item.uniq_id);
-                return Ok(item);
-
+             
             }
             return BadRequest();
         }

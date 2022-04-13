@@ -30,7 +30,7 @@ namespace CDN.Controllers
 
         #region Create
         /// <summary>
-        /// Create Folde
+        /// Create Folder
         /// </summary>
         /// <param name="name"> Folde Name </param>
         /// <param name="access">Access</param>
@@ -91,13 +91,8 @@ namespace CDN.Controllers
             {
                 var EmpResponse = json.Content.ReadAsStringAsync().Result;
                 var item = JsonConvert.DeserializeObject<Folder>(EmpResponse);
-                if (item == null)
-                {
-                    var result = new SystemMessaging(MesagesCode.Delete, "Folder doesn't exist");
-                    return Ok(result);
-                }
-                return Ok(item);
-
+                if (item == null) return Ok(new SystemMessaging(MesagesCode.Delete, "Folder doesn't exist"));
+                else return Ok(item);
             }
             return BadRequest();
         }
@@ -114,7 +109,6 @@ namespace CDN.Controllers
         [HttpDelete("Delete/{uniq_id}")]
         public async Task<IActionResult> Delete(string uniq_id)
         {
-            SystemMessaging result;
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Add("xc-auth", tokenSettings.token);
             var folder = await client.GetAsync(uri + "/findOne?where=(uniq_id,like," + uniq_id + ")");
@@ -129,25 +123,12 @@ namespace CDN.Controllers
                     if (json.IsSuccessStatusCode)
                     {
                         EmpResponse = json.Content.ReadAsStringAsync().Result;
-                        if (EmpResponse == "1")
-                        {
-                            result = new SystemMessaging(MesagesCode.Delete, "Folder deleted succesfully!");
-                            return Ok(result);
-                        }
-                        else
-                        {
-                            result = new SystemMessaging(MesagesCode.Delete, "Folder couldn't deleted!");
-                            return BadRequest(result);
-                        }
+                        if (EmpResponse == "1") return Ok(new SystemMessaging(MesagesCode.Delete, "Folder deleted succesfully!"));
+                        else return BadRequest(new SystemMessaging(MesagesCode.Delete, "Folder couldn't deleted!"));
 
                     }
                 }
-                else
-                {
-                    result = new SystemMessaging(MesagesCode.Delete, "Folder doesn't exist");
-                    return BadRequest(result);
-                }
-
+                else return BadRequest(new SystemMessaging(MesagesCode.Delete, "Folder doesn't exist"));
             }
 
             return BadRequest();
