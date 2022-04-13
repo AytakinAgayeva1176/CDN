@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CDN</name>
+    </assembly>
+    <members>
+        <member name="M:CDN.Controllers.CDNController.GetUserByEmail(System.String)">
+            <summary>
+            Get User by Email and return new token
+            </summary>
+            <param name="email">Email</param>
+            <returns></returns>
+        </member>
+        <member name="M:CDN.Controllers.FileController.Create(System.String,System.String,Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            Create File
+            </summary>
+            <param name="name"> File Name </param>
+            /// <param name="related_folder">Related folder</param>
+            /// <param name="file">File</param>
+            <returns></returns>
+        </member>
+        <member name="M:CDN.Controllers.FileController.GetByUniqId(System.String)">
+            <summary>
+            Get File By Unique Id
+            </summary>
+            <param name="uniq_id"> Unique id of File </param>
+            <returns></returns>
+        </member>
+        <member name="M:CDN.Controllers.FileController.Delete(System.String)">
+            <summary>
+            Delete File By Unique Id
+            </summary>
+            <param name="uniq_id"> Unique id of File </param>
+            <returns></returns>
+        </member>
+        <member name="M:CDN.Controllers.FolderController.Create(System.String,System.String)">
+            <summary>
+            Create Folde
+            </summary>
+            <param name="name"> Folde Name </param>
+            <param name="access">Access</param>
+            <returns></returns>
+        </member>
+        <member name="M:CDN.Controllers.FolderController.GetByUniqueId(System.String)">
+            <summary>
+            Get Folder By UniqId
+            </summary>
+            <param name="uniq_id"> Unique id of Folder </param>
+            <returns></returns>
+        </member>
+        <member name="M:CDN.Controllers.FolderController.Delete(System.String)">
+            <summary>
+            Delete Folder By UniqId
+            </summary>
+            <param name="uniq_id"> Unique id of Folder </param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
