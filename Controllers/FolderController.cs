@@ -30,7 +30,7 @@ namespace CDN.Controllers
 
         #region Create
         /// <summary>
-        /// Create Folder
+        /// Create Folde
         /// </summary>
         /// <param name="name"> Folde Name </param>
         /// <param name="access">Access</param>
@@ -91,51 +91,70 @@ namespace CDN.Controllers
             {
                 var EmpResponse = json.Content.ReadAsStringAsync().Result;
                 var item = JsonConvert.DeserializeObject<Folder>(EmpResponse);
-                if (item == null) return Ok(new SystemMessaging(MesagesCode.NotFound, "Folder doesn't exist"));
-                else return Ok(item);
-            }
-            return BadRequest();
-        }
-
-        #endregion
-
-
-        #region Delete
-        /// <summary>
-        /// Delete Folder By UniqId
-        /// </summary>
-        /// <param name="uniq_id"> Unique id of Folder </param>
-        /// <returns></returns>
-        [HttpDelete("Delete/{uniq_id}")]
-        public async Task<IActionResult> Delete(string uniq_id)
-        {
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Add("xc-auth", tokenSettings.token);
-            var folder = await client.GetAsync(uri + "/findOne?where=(uniq_id,like," + uniq_id + ")");
-            if (folder.IsSuccessStatusCode)
-            {
-                var EmpResponse = folder.Content.ReadAsStringAsync().Result;
-                var item = JsonConvert.DeserializeObject<Folder>(EmpResponse);
-                if (item != null)
+                if (item == null)
                 {
-                    var json = await client.DeleteAsync(uri + "/" + item.id);
-
-                    if (json.IsSuccessStatusCode)
-                    {
-                        EmpResponse = json.Content.ReadAsStringAsync().Result;
-                        if (EmpResponse == "1") return Ok(new SystemMessaging(MesagesCode.Delete, "Folder deleted succesfully!",item));
-                        else return BadRequest(new SystemMessaging(MesagesCode.Exception, "Folder couldn't deleted!",item));
-
-                    }
+                    var result = new SystemMessaging(MesagesCode.Delete, "Folder doesn't exist");
+                    return Ok(result);
                 }
-                else return BadRequest(new SystemMessaging(MesagesCode.NotFound, "Folder doesn't exist"));
-            }
+                return Ok(item);
 
+            }
             return BadRequest();
         }
 
-
         #endregion
+
+
+        //#region Delete
+        ///// <summary>
+        ///// Delete Folder By UniqId
+        ///// </summary>
+        ///// <param name="uniq_id"> Unique id of Folder </param>
+        ///// <returns></returns>
+        //[HttpDelete("Delete/{uniq_id}")]
+        //public async Task<IActionResult> Delete(string uniq_id)
+        //{
+        //    SystemMessaging result;
+        //    HttpClient client = new HttpClient();
+        //    client.DefaultRequestHeaders.Add("xc-auth", tokenSettings.token);
+        //    var folder = await client.GetAsync(uri + "/findOne?where=(uniq_id,like," + uniq_id + ")");
+        //    if (folder.IsSuccessStatusCode)
+        //    {
+        //        var EmpResponse = folder.Content.ReadAsStringAsync().Result;
+        //        var item = JsonConvert.DeserializeObject<Folder>(EmpResponse);
+        //        if (item != null)
+        //        {
+        //            var json = await client.DeleteAsync(uri + "/" + item.id);
+
+        //            if (json.IsSuccessStatusCode)
+        //            {
+        //                EmpResponse = json.Content.ReadAsStringAsync().Result;
+        //                if (EmpResponse == "1")
+        //                {
+        //                    result = new SystemMessaging(MesagesCode.Delete, "Folder deleted succesfully!");
+        //                    return Ok(result);
+        //                }
+        //                else
+        //                {
+        //                    result = new SystemMessaging(MesagesCode.Delete, "Folder couldn't deleted!");
+        //                    return BadRequest(result);
+        //                }
+
+        //            }
+        //        }
+        //        else
+        //        {
+        //            result = new SystemMessaging(MesagesCode.Delete, "Folder doesn't exist");
+        //            return BadRequest(result);
+        //        }
+
+        //    }
+
+        //    return BadRequest();
+        //}
+
+
+        //#endregion
 
 
     }

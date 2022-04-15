@@ -36,7 +36,7 @@
         </member>
         <member name="M:CDN.Controllers.FolderController.Create(System.String,System.String)">
             <summary>
-            Create Folder
+            Create Folde
             </summary>
             <param name="name"> Folde Name </param>
             <param name="access">Access</param>
@@ -45,13 +45,6 @@
         <member name="M:CDN.Controllers.FolderController.GetByUniqueId(System.String)">
             <summary>
             Get Folder By UniqId
-            </summary>
-            <param name="uniq_id"> Unique id of Folder </param>
-            <returns></returns>
-        </member>
-        <member name="M:CDN.Controllers.FolderController.Delete(System.String)">
-            <summary>
-            Delete Folder By UniqId
             </summary>
             <param name="uniq_id"> Unique id of Folder </param>
             <returns></returns>

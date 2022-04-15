@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "1bc2d16f-c91c-48dd-872e-b3b0e3ed9330": {
+      "ProjectGuid": "1bc2d16f-c91c-48dd-872e-b3b0e3ed9330",
+      "DisplayName": "CDN",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}
